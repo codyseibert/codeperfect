@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Cairo|VT323|Viga" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TimelineLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/easing/EasePack.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/plugins/CSSPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/javascript/javascript.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    
+    <div class="wrapper">
+      <div id="panel-start">
+        <h1 class="title">Upload a Code Snippit and Click Practice</h1>
+        <div class="snippit"></div>
+        <button class="practice">PRACTICE</button>
+      </div>
+
+      <div id="panel-type">
+        <h1 class="start">Start Typing to Begin</h1>
+        <pre class="type-zone"></pre>
+      </div>
+
+      <div id="panel-results">
+        <h1 class="good-job">Great Job!</h1>
+
+        <div class="flex">
+          <div id="accuracy-section">
+            <h2>Accuracy</h2>
+            <canvas id="accuracy"></canvas>
+            <div id="accuracy-center"></div>
+          </div>
+          
+          <div id="cpm-section">
+            <h2>CPM</h2>
+            <canvas id="cpm"></canvas>
+            <div id="cpm-center"></div>
+          </div>
+        </div>
+
+        <div id="info">
+          <h1>Typing Summary</h1>
+          <div class="flex-container">
+            <div class="text-right">typeable characters</div>
+            <div id="typable">A</div>
+          </div>
+          <div class="flex-container">
+            <div class="text-right">typed characters</div>
+            <div id="typed">B</div>
+          </div>
+          <div class="flex-container">
+            <div class="text-right">elapsed time</div>
+            <div id="time">C</div>
+          </div>
+        </div>
+
+        <button class="restart">RESTART</button>
+      </div>
+    </div>
+
+     <script src="StartPanel.js"></script> 
+    <script src="app.js"></script>
+
+  </body>
+</html>
