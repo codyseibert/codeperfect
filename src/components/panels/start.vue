@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     startPractice () {
+      $('button').blur();
       this.$parent.$emit('practice.start', {
         code: this.code
       });  

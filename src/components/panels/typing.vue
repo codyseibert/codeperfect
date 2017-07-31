@@ -18,6 +18,10 @@ export default {
   ],
   watch: {
     code () {
+      if (this.code === '') {
+        return; 
+      }
+
       function setCharacterAsRed(code, i) {
         if (i >= code.length) return;
         let char = code[i];
@@ -37,11 +41,7 @@ export default {
 
       this.html = setCharacterAsRed(code, i);
       
-      window.addEventListener('keyup', (event) => {
-        if (event.keyCode === 32) {
-          event.preventDefault();
-        }
-
+      let onKeyPress = (event) => {
         let char = code[i];
         if (char === '\n') {
           char = 'Enter'
@@ -56,6 +56,7 @@ export default {
 
         if (i === code.length) {
           const seconds = Math.floor((new Date() - start) / 1000);
+          window.removeEventListener('keypress', onKeyPress);
           this.$parent.$emit('practice.done', {
             time: seconds,
             cpm: Math.floor((correct / seconds) * 60),
@@ -65,7 +66,15 @@ export default {
             total: code.length
           });
         }
-      });
+
+        if (event.keyCode === 32) {
+          event.preventDefault(); 
+          event.stopPropagation();
+          return false;
+        }
+      }
+
+      window.addEventListener('keypress', onKeyPress);
     }
   }
 }

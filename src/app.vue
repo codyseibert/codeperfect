@@ -28,22 +28,25 @@ export default {
 
     function showPanel ($panel) {
       const tl = new TimelineLite();
+      const left = -$panel.offset().left - $panel.width() - 50;
+      const right = $(window).width() - $currentPanel.offset().left;
       tl
         .set($panel, {
-          left: -$panel.offset().left - $panel.width() - 50,
+          left: right,
           zIndex: 1,
           opacity: 1
         })
-        .to($currentPanel, 1.0, {
-          left: $(window).width() - $currentPanel.offset().left,
+        .to($currentPanel, 0.7, {
+          left: left,
           zIndex: 0
         })
-        .to($currentPanel, 0, {
+        .set($currentPanel, {
           opacity: 0,
-        })
-        .to($panel, 1.0, {
           left: 0
-        }, '-=1.0');
+        })
+        .to($panel, 0.7, {
+          left: 0
+        }, '-=0.7');
       $currentPanel = $panel;
     }
 
@@ -53,13 +56,12 @@ export default {
     });
 
     this.$on('practice.done', data => {
+      this.code = '';
       this.results = data;
       showPanel($('#panel-results'));
     });
 
     this.$on('practice.restart', data => {
-      this.code = '';
-      this.results = {};
       showPanel($('#panel-start'));
     });
   }
