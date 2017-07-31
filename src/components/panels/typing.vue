@@ -38,7 +38,6 @@ export default {
       this.html = setCharacterAsRed(code, i);
       
       window.addEventListener('keyup', (event) => {
-        console.log(event);
         if (event.keyCode === 32) {
           event.preventDefault();
         }
@@ -49,12 +48,10 @@ export default {
         }
 
         typed++;
-        console.log(event.key, char);
         if (event.key === char) {
           correct++;
           i++;
           this.html = setCharacterAsRed(code, i);
-          console.log(this.html);
         }
 
         if (i === code.length) {

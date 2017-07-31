@@ -48,20 +48,16 @@ export default {
     }
 
     this.$on('practice.start', data => {
-      console.log('start data', data);
       this.code = data.code;
       showPanel($('#panel-typing'));
     });
 
     this.$on('practice.done', data => {
-      console.log('data', data);
       this.results = data;
-      console.log('panel-results', $('#panel-results'))
       showPanel($('#panel-results'));
     });
 
     this.$on('practice.restart', data => {
-      console.log('data', data);
       this.code = '';
       this.results = {};
       showPanel($('#panel-start'));

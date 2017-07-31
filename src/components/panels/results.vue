@@ -20,7 +20,7 @@
       <h1>Typing Summary</h1>
       <div class="flex-container">
         <div class="text-right">typeable characters</div>
-        <div>{{results.typable}}</div>
+        <div>{{results.total}}</div>
       </div>
       <div class="flex-container">
         <div class="text-right">typed characters</div>
@@ -28,7 +28,7 @@
       </div>
       <div class="flex-container">
         <div class="text-right">elapsed time</div>
-        <div>{{results.time}}</div>
+        <div>{{results.time}} seconds</div>
       </div>
     </div>
 
