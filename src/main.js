@@ -26,9 +26,21 @@ Vue.material.registerTheme('default', {
 })
 
 const routes = [
-  { path: '/snippits', component: Snippits },
-  { path: '/practice', component: Practice },
-  { path: '*', redirect: '/snippits' }
+  {
+    name: 'snippits',
+    path: '/snippits',
+    component: Snippits,
+  },
+  {
+    name: 'practice',
+    path: '/practice/:snippitId',
+    component: Practice,
+    props: (route) => ({snippitId: parseInt(route.params.snippitId)})
+  },
+  {
+    path: '*',
+    redirect: '/snippits'
+  }
 ]
 
 const router = new VueRouter({

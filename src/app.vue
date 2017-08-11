@@ -1,14 +1,15 @@
 <template>
   <div>
-    <top-nav
-      @menuItemClicked="toggleSideNav" />
     <side-nav
       ref="sidenav"
       :is-open.sync="isSideNavOpen" />
 
-    <md-layout class="main-content">
+    <top-nav
+      @menuItemClicked="toggleSideNav" />
+
+    <div class="main-content">
       <router-view></router-view>
-    </md-layout>
+    </div>
   </div>
 </template>
 
@@ -36,8 +37,18 @@ export default {
 }
 </script>
 
+<style>
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+</style>
+
 <style scoped>
-  .main-content {
-    padding: 16px;
-  }
+.main-content {
+  padding: 16px;
+  overflow-y: scroll;
+  height: 100%;
+}
 </style>

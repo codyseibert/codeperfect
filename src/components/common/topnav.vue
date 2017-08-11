@@ -1,5 +1,5 @@
 <template>
-  <md-toolbar>
+  <md-toolbar class="md-whiteframe main-header md-whiteframe-1dp">
     <md-button class="md-icon-button" @click="menuItemClicked">
       <md-icon>menu</md-icon>
     </md-button>
@@ -20,5 +20,4 @@
 </script>
 
 <style scoped>
-
 </style>

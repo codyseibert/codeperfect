@@ -1,7 +1,7 @@
 <template>
   <md-layout md-gutter="16">
     <md-layout md-column md-flex="33">
-      <Browser @selectedLanguageChanged="showSnippitsByLanguage"/>
+      <Browser @onSelectedLanguageChanged="showSnippitsByLanguage"/>
     </md-layout>
     <md-layout md-column>
       <Snippits :selected-language="selectedLanguage"/>
@@ -29,20 +29,13 @@ export default {
   },
   methods: {
     showSnippitsByLanguage (language) {
-      this.selectedLanguage = language
+      this.selectedLanguage = language;
     }
   }
 }
 </script>
 
 <style>
-body {
-  color: #333;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: #333;
-}
 </style>
 
 <style scoped>

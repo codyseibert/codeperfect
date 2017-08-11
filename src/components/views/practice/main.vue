@@ -6,15 +6,25 @@
 </template>
 
 <script>
+import SnippitService from '../../../services/snippit'
+
 export default {
   data () {
     return {
       html: ''
     }
   },
-  props: [
-    'code'
-  ],
+  props: {
+    snippitId: Number
+  },
+  async mounted () {
+    console.log(this.snippitId);
+    const snippit = await SnippitService.find({
+      id: this.snippitId
+    })
+    this.code = snippit.code
+    console.log(snippit);
+  },
   watch: {
     code () {
       if (this.code === '') {

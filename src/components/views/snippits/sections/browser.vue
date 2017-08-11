@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     select (language) {
-      this.$emit('selectedLanguageChanged', language)
+      this.$emit('onSelectedLanguageChanged', language)
     }
   }
 }

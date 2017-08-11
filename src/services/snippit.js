@@ -33,7 +33,14 @@ const snippits = [
 ]
 
 export default {
-  async find({languageId}) {
-    return snippits.filter(s => s.languageId === languageId)
+  async find(query) {
+    return snippits.filter(s => {
+      for (let [key, value] of Object.entries(query)) {
+        if (s[key] === undefined || s[key] !== value) {
+          return false;
+        }
+      }
+      return true;
+    })
   }
 }

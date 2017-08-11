@@ -11,7 +11,11 @@
     </md-card-header>
 
     <md-card-actions>
-      <md-button class="md-primary" @click="practice"><md-icon>keyboard</md-icon> Practice</md-button>
+      <router-link :to="{ name: 'practice', params: { snippitId: snippit.id }}">
+        <md-button class="md-primary" @click="onPracticeClicked">
+          <md-icon>keyboard</md-icon> Practice
+        </md-button>
+      </router-link>
       <md-button class="md-primary"><md-icon>show_chart</md-icon> Statistics</md-button>
     </md-card-actions>
   </md-card>
@@ -35,8 +39,8 @@ export default {
     snippit: Object
   },
   methods: {
-    practice () {
-      this.$emit('snippitSelected', this.snippit)
+    onPracticeClicked () {
+
     }
   }
 }
@@ -49,5 +53,9 @@ export default {
   font-size: 18px;
   line-height: 24px;
   height: 240px;
+}
+
+.md-card {
+  margin-bottom: 40px;
 }
 </style>
