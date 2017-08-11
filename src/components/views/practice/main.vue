@@ -1,12 +1,11 @@
 <template>
-  <div id="panel-typing">
+  <md-layout md-gutter="16">
     <h1>Start Typing to Begin</h1>
     <pre v-html="html"></pre>
-  </div>
+  </md-layout>
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -79,6 +78,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style scoped>
 .cursor {

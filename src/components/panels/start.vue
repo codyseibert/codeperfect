@@ -4,7 +4,7 @@
     <codemirror v-model="code" :options="editorOptions"></codemirror>
     <button v-on:click="startPractice">PRACTICE</button>
   </div>
-  
+
 </template>
 
 <script>
@@ -30,38 +30,36 @@ export default {
       $('button').blur();
       this.$parent.$emit('practice.start', {
         code: this.code
-      });  
+      });
     }
   }
 }
 </script>
 
-<style>
-.CodeMirror {
-  font-size: 20px;
-}
-</style>
-
 <style scoped>
-h1 {
-  text-align: center;
-}
+  .CodeMirror {
+    font-size: 14px;
+  }
 
-button {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 70px;
-  margin-top:6px;
-  border: none;
-  background-color: #dcedc1;
-  cursor: pointer;
-  font-size: 40px;
-  font-family: 'VT323', monospace;
-  border-radius: 5px;
-}
+  h1 {
+    text-align: center;
+  }
 
-button:hover {
-  background-color: #a8e6cf;
-}
+  button {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 70px;
+    margin-top:6px;
+    border: none;
+    background-color: #dcedc1;
+    cursor: pointer;
+    font-size: 40px;
+    font-family: 'VT323', monospace;
+    border-radius: 5px;
+  }
+
+  button:hover {
+    background-color: #a8e6cf;
+  }
 </style>
