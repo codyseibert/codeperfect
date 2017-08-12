@@ -21,6 +21,30 @@ export default {
       {
         id: 4,
         name: 'CoffeeScript'
+      },
+      {
+        id: 5,
+        name: 'Go'
+      },
+      {
+        id: 6,
+        name: 'Sass'
+      },
+      {
+        id: 7,
+        name: 'Css'
+      },
+      {
+        id: 8,
+        name: 'Less'
+      },
+      {
+        id: 9,
+        name: 'Stylus'
+      },
+      {
+        id: 10,
+        name: 'Jade'
       }
     ];
   }

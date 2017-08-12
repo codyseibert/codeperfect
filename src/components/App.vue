@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <md-layout md-column class="wrapper">
     <side-nav
       ref="sidenav"
       :is-open.sync="isSideNavOpen" />
@@ -7,15 +7,13 @@
     <top-nav
       @menuItemClicked="toggleSideNav" />
 
-    <div class="main-content">
-      <router-view></router-view>
-    </div>
-  </div>
+    <router-view></router-view>
+  </md-layout>
 </template>
 
 <script>
-import TopNav from './components/common/topnav.vue'
-import SideNav from './components/common/sidenav.vue'
+import TopNav from './common/topnav.vue'
+import SideNav from './common/sidenav.vue'
 
 export default {
   data () {
@@ -38,17 +36,29 @@ export default {
 </script>
 
 <style>
-html,
-body {
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+  margin: 0px auto;
+}
+
+.wrapper {
   height: 100%;
   overflow: hidden;
+}
+
+.scroll {
+  overflow: auto;
+}
+
+.full {
+  height: 100%;
 }
 </style>
 
 <style scoped>
-.main-content {
-  padding: 16px;
-  overflow-y: scroll;
-  height: 100%;
-}
 </style>

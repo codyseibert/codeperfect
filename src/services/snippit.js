@@ -29,6 +29,24 @@ const snippits = [
     languageId: 1,
     code: 'var i = 1;',
     title: 'Lots of For Loops'
+  },
+  {
+    id: 31,
+    languageId: 1,
+    code: 'var i = 1;',
+    title: 'Lots of For Loops'
+  },
+  {
+    id: 32,
+    languageId: 1,
+    code: 'var i = 1;',
+    title: 'Lots of For Loops'
+  },
+  {
+    id: 33,
+    languageId: 1,
+    code: 'var i = 1;',
+    title: 'Lots of For Loops'
   }
 ]
 
@@ -42,5 +60,10 @@ export default {
       }
       return true;
     })
+  },
+
+  async findById(id) {
+    const snippits = await this.find({id: id});
+    return snippits[0];
   }
 }

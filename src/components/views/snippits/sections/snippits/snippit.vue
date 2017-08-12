@@ -12,11 +12,16 @@
 
     <md-card-actions>
       <router-link :to="{ name: 'practice', params: { snippitId: snippit.id }}">
-        <md-button class="md-primary" @click="onPracticeClicked">
+        <md-button class="md-primary">
           <md-icon>keyboard</md-icon> Practice
         </md-button>
       </router-link>
-      <md-button class="md-primary"><md-icon>show_chart</md-icon> Statistics</md-button>
+
+      <router-link :to="{ name: 'results', params: { snippitId: snippit.id }}">
+        <md-button class="md-primary">
+          <md-icon>show_chart</md-icon> Progress
+        </md-button>
+      </router-link>
     </md-card-actions>
   </md-card>
 </template>
@@ -37,11 +42,6 @@ export default {
   },
   props: {
     snippit: Object
-  },
-  methods: {
-    onPracticeClicked () {
-
-    }
   }
 }
 </script>

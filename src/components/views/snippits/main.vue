@@ -1,5 +1,5 @@
 <template>
-  <md-layout md-gutter="16">
+  <md-layout md-gutter="16" class="content">
     <md-layout md-column md-flex="33">
       <Browser @onSelectedLanguageChanged="showSnippitsByLanguage"/>
     </md-layout>
@@ -39,5 +39,7 @@ export default {
 </style>
 
 <style scoped>
-
+.content {
+  padding-top: 20px;
+}
 </style>

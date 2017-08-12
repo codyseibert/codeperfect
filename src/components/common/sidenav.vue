@@ -5,12 +5,20 @@
         <h3 class="md-title">Sidenav content</h3>
       </div>
     </md-toolbar>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis iusto!</p>
+
+    <md-list>
+      <md-list-item @click.native="close">
+        <router-link :to="{ name: 'snippits' }">
+          <md-icon>code</md-icon> <span>Snippits</span>
+        </router-link>
+      </md-list-item>
+
+      <md-list-item @click.native="close">
+        <router-link :to="{ name: 'about' }">
+          <md-icon>info</md-icon> <span>About</span>
+        </router-link>
+      </md-list-item>
+    </md-list>
   </md-sidenav>
 </template>
 
@@ -33,10 +41,14 @@
       }
     },
     methods: {
+      wtf () {
+        console.log('wtf');
+      },
       refresh () {
         this.$refs.sidenav[this.isOpen ? 'open' : 'close']()
       },
       close () {
+        console.log('close')
         this.$emit('update:isOpen', false)
       },
       open () {

@@ -1,36 +1,36 @@
 <template>
-  <md-layout md-gutter="16">
+  <md-layout md-column md-gutter="16">
     <h1>Start Typing to Begin</h1>
-    <pre v-html="html"></pre>
+    <pre v-if="!done" v-html="html"></pre>
+    <router-link v-if="done" :to="{ name: 'results', params: { snippitId: snippitId }}">
+      <md-button class="md-primary">
+        <md-icon>show_chart</md-icon> View Results
+      </md-button>
+    </router-link>
   </md-layout>
 </template>
 
 <script>
-import SnippitService from '../../../services/snippit'
+import SnippitService from '../../services/snippit'
+import ResultsService from '../../services/results'
 
 export default {
   data () {
     return {
-      html: ''
+      html: '',
+      done: false
     }
   },
   props: {
     snippitId: Number
   },
   async mounted () {
-    console.log(this.snippitId);
-    const snippit = await SnippitService.find({
-      id: this.snippitId
-    })
-    this.code = snippit.code
-    console.log(snippit);
+    const snippit = await SnippitService.findById(this.snippitId)
+    this.html = snippit.code
+    this.start();
   },
-  watch: {
-    code () {
-      if (this.code === '') {
-        return;
-      }
-
+  methods: {
+    start () {
       function setCharacterAsRed(code, i) {
         if (i >= code.length) return;
         let char = code[i];
@@ -42,7 +42,7 @@ export default {
           code.substring(i + 1);
       }
 
-      const code = this.code;
+      const code = this.html;
       const start = new Date();
       let i = 0;
       let typed = 0;
@@ -64,9 +64,11 @@ export default {
         }
 
         if (i === code.length) {
+          this.done = true
           const seconds = Math.floor((new Date() - start) / 1000);
           window.removeEventListener('keypress', onKeyPress);
-          this.$parent.$emit('practice.done', {
+          ResultsService.addResult({
+            snippitId: this.snippitId,
             time: seconds,
             cpm: Math.floor((correct / seconds) * 60),
             accuracy: Math.floor(correct / (typed * 1.0) * 100),
@@ -89,13 +91,15 @@ export default {
 }
 </script>
 
+<style>
 
-
-<style scoped>
 .cursor {
   color: red;
   background-color: yellow;
 }
+</style>
+
+<style scoped>
 
 h1 {
   text-align: center;
