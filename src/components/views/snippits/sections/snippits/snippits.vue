@@ -1,24 +1,22 @@
 <template>
-  <div class="full snippits-content">
-    <h1>Snippits</h1>
-    <div class="full scroll snippits">
-      <md-layout md-gutter="40">
-        <md-layout md-column>
-          <Snippit
-            :key="snippit.id"
-            :snippit="snippit"
-            v-for="snippit in oddSnippits" />
-        </md-layout>
+  <v-flex xs8>
+    <h4>Snippits</h4>
+    <v-layout row>
+      <v-flex>
+        <Snippit
+          :key="snippit.id"
+          :snippit="snippit"
+          v-for="snippit in oddSnippits" />
+      </v-flex>
 
-        <md-layout md-column>
-          <Snippit
-            :key="snippit.id"
-            :snippit="snippit"
-            v-for="snippit in evenSnippits" />
-        </md-layout>
-      </md-layout>
-    </div>
-  </div>
+      <v-flex>
+        <Snippit
+          :key="snippit.id"
+          :snippit="snippit"
+          v-for="snippit in evenSnippits" />
+      </v-flex>
+    </v-layout>
+  </v-flex>
 </template>
 
 
@@ -77,6 +75,6 @@ h1, h2 {
 }
 
 .snippits-content {
-  padding-right: 20px;
+  padding-right: 40px;
 }
 </style>

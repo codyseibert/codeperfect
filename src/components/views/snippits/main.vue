@@ -1,15 +1,8 @@
 <template>
-  <md-layout md-gutter="16" class="content">
-    <md-layout md-column md-flex="33">
-      <Browser @onSelectedLanguageChanged="showSnippitsByLanguage"/>
-    </md-layout>
-    <md-layout md-column>
-      <Snippits :selected-language="selectedLanguage"/>
-    </md-layout>
-    <!-- <md-layout>
-      <Snippit />
-    </md-layout> -->
-  </md-layout>
+  <v-layout row>
+    <Browser @onSelectedLanguageChanged="showSnippitsByLanguage"/>
+    <Snippits :selected-language="selectedLanguage"/>
+  </v-layout>
 </template>
 
 <script>

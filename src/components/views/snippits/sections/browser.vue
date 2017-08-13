@@ -1,22 +1,24 @@
 <template>
-  <div class="full">
-    <h1>Languages</h1>
+  <v-flex xs4>
+    <div class="browser">
+      <h4>Languages</h4>
 
-    <div class="full scroll buttons">
-      <md-button
-        v-for="language in languages"
-        key="language.id"
-        @click="select(language)"
-        :class="{
-          language: true,
-          'md-accent': selectedLanguage.id === language.id,
-          'md-primary': selectedLanguage.id !== language.id
-        }"
-        >
-        {{language.name}}
-      </md-button>
+      <div class="buttons full scroll">
+        <md-button
+          v-for="language in languages"
+          key="language.id"
+          @click="select(language)"
+          :class="{
+            language: true,
+            'md-accent': selectedLanguage.id === language.id,
+            'md-primary': selectedLanguage.id !== language.id
+          }"
+          >
+          {{language.name}}
+        </md-button>
+      </div>
     </div>
-  </div>
+  </v-flex>
 </template>
 
 
@@ -38,8 +40,9 @@ export default {
   },
   async mounted () {
     this.languages = await LanguageService.getAll()
-    if (this.languages.length && !this.selectedLanguage)
+    if (this.languages.length && Object.keys(this.selectedLanguage).length === 0) {
       this.select(this.languages[0])
+    }
   },
   methods: {
     select (language) {
@@ -50,17 +53,9 @@ export default {
 </script>
 
 
-
 <style scoped>
 h1, h2, h3, h4, h5, h6 {
   text-align: center;
-  padding-left: 16px;
-  padding-right: 16px;
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  width: 100%;
 }
 
 .language {

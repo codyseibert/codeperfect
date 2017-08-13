@@ -1,12 +1,25 @@
 <template>
   <md-layout md-column md-gutter="16">
-    <h1>Start Typing to Begin</h1>
-    <pre v-if="!done" v-html="html"></pre>
-    <router-link v-if="done" :to="{ name: 'results', params: { snippitId: snippitId }}">
-      <md-button class="md-primary">
-        <md-icon>show_chart</md-icon> View Results
-      </md-button>
-    </router-link>
+    <div>
+      <h1>Start Typing to Begin</h1>
+
+      <div class="code">
+        <div class="wrap">
+          <pre v-highlightjs="html">
+            <code class="javascript"></code>
+          </pre>
+
+          <pre class="overlay" v-if="!done" v-html="overlay">
+          </pre>
+        </div>
+      </div>
+
+      <router-link v-if="done" :to="{ name: 'results', params: { snippitId: snippitId }}">
+        <md-button class="md-primary">
+          <md-icon>show_chart</md-icon> View Results
+        </md-button>
+      </router-link>
+    </div>
   </md-layout>
 </template>
 
@@ -18,6 +31,7 @@ export default {
   data () {
     return {
       html: '',
+      overlay: '',
       done: false
     }
   },
@@ -25,15 +39,16 @@ export default {
     snippitId: Number
   },
   async mounted () {
-    const snippit = await SnippitService.findById(this.snippitId)
-    this.html = snippit.code
+    const snippit = await SnippitService.findById(this.snippitId);
+    this.html = snippit.code;
+    this.overlay = snippit.code;
     this.start();
   },
   methods: {
     start () {
-      function setCharacterAsRed(code, i) {
+      function setCharacterAsRed(code, i, other) {
         if (i >= code.length) return;
-        let char = code[i];
+        let char = other[i];
         if (char === '\n') {
           char = '&#8629;\n';
         }
@@ -42,13 +57,14 @@ export default {
           code.substring(i + 1);
       }
 
-      const code = this.html;
+      const code = this.overlay;
+      const overlay = this.overlay.replace(/[^\s]/g, ' ');
       const start = new Date();
       let i = 0;
       let typed = 0;
       let correct = 0;
 
-      this.html = setCharacterAsRed(code, i);
+      this.overlay = setCharacterAsRed(overlay, i, code);
 
       let onKeyPress = (event) => {
         let char = code[i];
@@ -60,7 +76,7 @@ export default {
         if (event.key === char) {
           correct++;
           i++;
-          this.html = setCharacterAsRed(code, i);
+          this.overlay = setCharacterAsRed(overlay, i, code);
         }
 
         if (i === code.length) {
@@ -92,7 +108,6 @@ export default {
 </script>
 
 <style>
-
 .cursor {
   color: red;
   background-color: yellow;
@@ -100,17 +115,41 @@ export default {
 </style>
 
 <style scoped>
-
 h1 {
   text-align: center;
+  margin-top: 40px;
 }
 
 pre {
-  background-color: white;
   border-radius: 10px;
-  height: 500px;
+  max-height: 500px;
   padding: 20px;
   font-size: 14px;
   overflow: hidden;
+  margin: 0 auto;
+  width: 300px;
+  height: 300px;
+}
+
+.hljs {
+  background-color: #333;
+  height: 300px;
+  color: white;
+}
+
+.overlay {
+  position: absolute;
+  top: 27px;
+  left: 7px;
+}
+
+.code {
+  position: relative;
+}
+
+.wrap {
+  width: 300px;
+  margin: 0 auto;
+  position: relative;
 }
 </style>

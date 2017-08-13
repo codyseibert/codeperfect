@@ -20,4 +20,7 @@
 </script>
 
 <style scoped>
+.md-toolbar {
+  z-index: 2;
+}
 </style>

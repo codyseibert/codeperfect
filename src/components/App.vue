@@ -1,5 +1,45 @@
 <template>
-  <md-layout md-column class="wrapper">
+  <v-app>
+    <v-navigation-drawer
+      temporary
+      overflow
+      v-model="drawer" >
+      <v-list class="pt-0" dense>
+        <router-link :to="{ name: 'snippits' }">
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-icon>code</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Snippits</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </router-link>
+        <v-list-tile>
+          <v-list-tile-action>
+            <v-icon>info</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>About</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-toolbar fixed class="indigo" dark>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>Toolbar</v-toolbar-title>
+    </v-toolbar>
+
+    <main>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </main>
+    <v-footer></v-footer>
+  </v-app>
+<!--
+  <md-layout md-column class="full">
     <side-nav
       ref="sidenav"
       :is-open.sync="isSideNavOpen" />
@@ -8,7 +48,7 @@
       @menuItemClicked="toggleSideNav" />
 
     <router-view></router-view>
-  </md-layout>
+  </md-layout> -->
 </template>
 
 <script>
@@ -18,7 +58,8 @@ import SideNav from './common/sidenav.vue'
 export default {
   data () {
     return {
-      isSideNavOpen: false
+      isSideNavOpen: false,
+      drawer: false
     }
   },
   components: {
@@ -36,7 +77,7 @@ export default {
 </script>
 
 <style>
-html, body{
+/*html, body{
   height: 100%;
   margin: 0;
 }
@@ -44,6 +85,7 @@ html, body{
 #app {
   height: 100%;
   margin: 0px auto;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -58,6 +100,10 @@ html, body{
 .full {
   height: 100%;
 }
+
+.overflow-hidden {
+  overflow: hidden;
+}*/
 </style>
 
 <style scoped>
