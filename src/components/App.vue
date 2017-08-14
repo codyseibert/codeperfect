@@ -28,7 +28,7 @@
 
     <v-toolbar fixed class="indigo" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-toolbar-title>CodePerfect</v-toolbar-title>
     </v-toolbar>
 
     <main>
@@ -36,7 +36,11 @@
         <router-view></router-view>
       </v-container>
     </main>
-    <v-footer></v-footer>
+    <v-footer class="indigo" style="margin-top: 100px;">
+      <div class="text-xs-center" style="width: 100%; color: white;">
+        © Cody Seibert 2017
+      </div>
+    </v-footer>
   </v-app>
 <!--
   <md-layout md-column class="full">

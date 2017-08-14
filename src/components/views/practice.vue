@@ -1,7 +1,7 @@
 <template>
   <md-layout md-column md-gutter="16">
     <div>
-      <h1>Start Typing to Begin</h1>
+      <h4 class="text-xs-center">Start Typing to Begin</h4>
 
       <div class="code">
         <div class="wrap">
@@ -135,12 +135,14 @@ pre {
   background-color: #333;
   height: 300px;
   color: white;
+  font-size: 18px;
 }
 
 .overlay {
-  position: absolute;
-  top: 27px;
-  left: 7px;
+  position: relative;
+  top: -270px;
+  left: 18px;
+  font-size: 18px;
 }
 
 .code {

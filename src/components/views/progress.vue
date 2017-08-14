@@ -1,174 +1,99 @@
 <template>
   <v-layout column>
     <v-layout>
-      <v-flex xs3>
-        <h4>Snippit Progress</h4>
+      <v-flex xs4 offset-xs4>
+        <h4 class="text-xs-center">Snippit Progress</h4>
 
         <pre v-highlightjs="snippit.code">
           <code class="javascript"></code>
         </pre>
       </v-flex>
+    </v-layout>
 
-      <v-flex xs9 class="snapshots">
-        <v-layout class="snapshot-wrapper">
-          <v-flex xs3>
-            <div class="numeric">
-              <v-icon>replay</v-icon>
-              5
-            </div>
-            <div class="snapshot-title">
-              Attempts
-            </div>
-          </v-flex>
-
-          <v-flex xs3>
-            <div class="numeric">
-              <v-icon>timer</v-icon>
-              3:21
-            </div>
-            <div class="snapshot-title">
-              Best Time
-            </div>
-          </v-flex>
-
-          <v-flex xs3>
-            <div class="numeric">
-              <v-icon>keyboard</v-icon>
-              430
-            </div>
-            <div class="snapshot-title">
-              Best CPM
-            </div>
-          </v-flex>
-
-          <v-flex xs3>
-            <div class="numeric">
-              <v-icon>track_changes</v-icon>
-              95%
-            </div>
-            <div class="snapshot-title">
-              Best Accuracy
-            </div>
-          </v-flex>
-        </v-layout>
-
-        <v-layout class="pt-4">
-          <v-flex xs8 offset-xs2>
-            <v-divider></v-divider>
-          </v-flex>
-        </v-layout>
+    <v-layout class="pt-5">
+      <v-flex xs4 offset-xs4>
+        <v-divider></v-divider>
       </v-flex>
     </v-layout>
 
-    <!-- <v-flex xs4 offset-xs4>
-      <v-card>
-        <v-toolbar class="blue lighten-4">
-          <v-toolbar-title>Snippit</v-toolbar-title>
-        </v-toolbar>
-
-        <v-card-media class="text-center">
-          <pre v-highlightjs="snippit.code">
-            <code class="javascript"></code>
-          </pre>
-        </v-card-media>
-      </v-card>
-    </v-flex> -->
-
-    <!-- <v-layout>
-      <v-flex>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Your Best CPM</v-toolbar-title>
-          </v-toolbar>
-
-          <v-card-media class="text-center">
-            <h1>450</h1>
-          </v-card-media>
-        </v-card>
+    <v-layout class="pt-5">
+      <v-flex xs3 class="text-xs-center">
+        <InfoSquare
+          icon="replay"
+          value="5"
+          title="Attempts" />
       </v-flex>
 
-      <v-flex>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Your Best Accuracy</v-toolbar-title>
-          </v-toolbar>
-
-          <v-card-media class="text-center">
-            <h1>95%</h1>
-          </v-card-media>
-        </v-card>
+      <v-flex xs3 class="text-xs-center">
+        <InfoSquare
+          icon="timer"
+          value="3:21"
+          title="Best Time" />
       </v-flex>
 
-      <v-flex>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Your Best Time</v-toolbar-title>
-          </v-toolbar>
-
-          <v-card-media class="text-center">
-            <h1>3:24</h1>
-          </v-card-media>
-        </v-card>
+      <v-flex xs3 class="text-xs-center">
+        <InfoSquare
+          icon="keyboard"
+          value="430"
+          title="Best CPM" />
       </v-flex>
-    </v-layout> -->
 
-    <v-layout>
-      <v-flex xs4>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Cpm</v-toolbar-title>
-          </v-toolbar>
+      <v-flex xs3 class="text-xs-center">
+        <InfoSquare
+          icon="track_changes"
+          value="95%"
+          title="Best Accuracy" />
+      </v-flex>
+    </v-layout>
 
-          <v-card-media class="text-center">
+    <v-layout class="pt-5">
+      <v-flex xs4 offset-xs4>
+        <v-divider></v-divider>
+      </v-flex>
+    </v-layout>
+
+    <v-layout class="pt-5" column>
+      <v-layout>
+        <v-flex xs6 class="text-xs-center">
+          <div class="inline-block chart-wrapper">
+            <h5 class="text-xs-center">CPM</h5>
             <cpm-chart :data="cpmData" :options="options"/>
-          </v-card-media>
-        </v-card>
-      </v-flex>
+          </div>
+        </v-flex>
 
-      <v-flex xs4>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Accuracy</v-toolbar-title>
-          </v-toolbar>
-
-          <v-card-media class="text-center">
+        <v-flex xs6 class="text-xs-center">
+          <div class="inline-block chart-wrapper">
+            <h5 class="text-xs-center">Accuracy</h5>
             <cpm-chart :data="accuracyData" :options="options"/>
-          </v-card-media>
-        </v-card>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-layout>
+
+    <v-layout class="pt-5">
+      <v-flex xs4 offset-xs4>
+        <v-divider></v-divider>
       </v-flex>
     </v-layout>
 
-    <v-layout>
+    <v-layout class="attempts">
       <v-flex xs8 offset-xs2>
-        <h4>Your Attempts</h4>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-icon>star</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>#3</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+        <h5 class="text-xs-center">Your Attempts</h5>
 
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-icon>star</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>#2</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-icon>star</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>#1</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
+        <table>
+          <tr>
+            <th>Attempt</th>
+            <th>Time</th>
+            <th>Accuracy</th>
+            <th>CPM</th>
+          </tr>
+          <tr v-for="attempt in attempts">
+            <td>{{attempt.number}}</td>
+            <td>{{attempt.time}}</td>
+            <td>{{attempt.accuracy}}</td>
+            <td>{{attempt.cpm}}</td>
+          </tr>
+        </table>
       </v-flex>
     </v-layout>
   </v-layout>
@@ -179,40 +104,65 @@ import ResultsService from '../../services/results'
 import Keyboard from '../../responsive-keyboard'
 import CpmChart from './CpmChart'
 import SnippitService from '../../services/snippit'
+import InfoSquare from './progress/InfoSquare.vue'
 
 export default {
   data () {
     return {
+      attempts: [
+        {
+          id: 1,
+          number: 1,
+          cpm: 430,
+          accuracy: 85,
+          time: '3:21'
+        },
+        {
+          id: 2,
+          number: 2,
+          cpm: 230,
+          accuracy: 99,
+          time: '3:01'
+        }
+      ],
       snippit: {},
       options: {
         showTooltips: false,
-        responsive: false,
+        responsive: true,
         percentageInnerCutout: 80,
         animationEasing: 'easeOutQuart',
         animateScale: false
       },
       accuracyData: {
-        labels: ['a', 'b', 'c', 'd'],
+        labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
         datasets: [{
           label: "CPM vs Attempt",
           data: [
             1,
             2,
             3,
-            4
+            4,
+            5,
+            3,
+            4,
+            5
           ],
           fill: false,
         }]
       },
       cpmData: {
-        labels: ['a', 'b', 'c', 'd'],
+        labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
         datasets: [{
           label: "CPM vs Attempt",
           data: [
             1,
             2,
             3,
-            4
+            4,
+            5,
+            3,
+            4,
+            5
           ],
           fill: false,
         }]
@@ -228,12 +178,22 @@ export default {
   methods: {
   },
   components: {
-    CpmChart
+    CpmChart,
+    InfoSquare
   }
 }
 </script>
 
 <style scoped>
+
+pre {
+}
+
+code {
+  height: 300px;
+  text-align: left;
+}
+
 .snapshots {
   padding-top: 40px;
   color: #666;
@@ -247,16 +207,57 @@ export default {
 
 .numeric {
   font-size: 30px;
+  color: #666;
 }
 
 .snapshot-title {
   font-size: 16px;
   position: relative;
   top: -10px;
+  color: #666;
   left: 0px;
 }
 
 .snapshot-wrapper {
   padding-left: 100px;
 }
+
+.chart-wrapper {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  text-align: center;
+  padding: 20px;
+}
+
+.attempts {
+  margin-top: 50px;
+}
+
+.attempts h5 {
+  margin-bottom: 40px;
+}
+
+.hljs {
+  background-color: black;
+  color: white;
+}
+
+pre {
+  height: 240px;
+  margin: 0px;
+}
+
+code {
+  font-size: 18px;
+  line-height: 24px;
+  height: 240px;
+}
+
 </style>
