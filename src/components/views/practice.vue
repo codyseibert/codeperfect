@@ -1,26 +1,23 @@
 <template>
-  <md-layout md-column md-gutter="16">
-    <div>
+  <v-layout column>
+    <v-flex>
       <h4 class="text-xs-center">Start Typing to Begin</h4>
+    </v-flex>
 
-      <div class="code">
-        <div class="wrap">
-          <pre v-highlightjs="html">
-            <code class="javascript"></code>
-          </pre>
+    <v-flex xs6 offset-xs3>
+      <pre v-highlightjs="html">
+        <code id="code" class="javascript"></code>
+      </pre>
+    </v-flex>
 
-          <pre class="overlay" v-if="!done" v-html="overlay">
-          </pre>
-        </div>
-      </div>
-
+    <v-flex>
       <router-link v-if="done" :to="{ name: 'results', params: { snippitId: snippitId }}">
         <md-button class="md-primary">
           <md-icon>show_chart</md-icon> View Results
         </md-button>
       </router-link>
-    </div>
-  </md-layout>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -31,7 +28,6 @@ export default {
   data () {
     return {
       html: '',
-      overlay: '',
       done: false
     }
   },
@@ -41,30 +37,51 @@ export default {
   async mounted () {
     const snippit = await SnippitService.findById(this.snippitId);
     this.html = snippit.code;
-    this.overlay = snippit.code;
-    this.start();
+    setTimeout(() => {
+      this.start();
+    });
   },
   methods: {
     start () {
-      function setCharacterAsRed(code, i, other) {
-        if (i >= code.length) return;
-        let char = other[i];
-        if (char === '\n') {
-          char = '&#8629;\n';
+
+      function convertAllTextToSpan() {
+        const nodes = $('#code').contents();
+        let newHtml = $("<div></div>");
+        for (let node of nodes) {
+          const html = node.nodeValue || node.innerHTML;
+          if (node.nodeValue === null)
+            $(node).html('')
+          for (let j = 0; j < html.length; j++) {
+            let char = html[j];
+            if (char === '\n')
+              char = '&#8629;\n';
+            if (node.nodeValue === null)
+              $(node).append(`<span class="character">${char}</span>`);
+            else
+              newHtml.append(`<span class="character">${char}</span>`);
+          }
+          if (node.nodeValue === null)
+            newHtml.append(node);
         }
-        return code.substring(0, i) +
-          `<span class="cursor">${char}</span>` +
-          code.substring(i + 1);
+        $('#code').html(newHtml.html());
       }
 
-      const code = this.overlay;
-      const overlay = this.overlay.replace(/[^\s]/g, ' ');
+      function setCharacterAsRed(i) {
+        const red = $('.character.red');
+        red.removeClass('red');
+        const characters = $('.character');
+        $(characters[i]).addClass('red')
+      }
+
+      convertAllTextToSpan();
+
+      const code = this.html;
       const start = new Date();
       let i = 0;
       let typed = 0;
       let correct = 0;
 
-      this.overlay = setCharacterAsRed(overlay, i, code);
+      setCharacterAsRed(i);
 
       let onKeyPress = (event) => {
         let char = code[i];
@@ -76,7 +93,7 @@ export default {
         if (event.key === char) {
           correct++;
           i++;
-          this.overlay = setCharacterAsRed(overlay, i, code);
+          setCharacterAsRed(i);
         }
 
         if (i === code.length) {
@@ -121,21 +138,15 @@ h1 {
 }
 
 pre {
-  border-radius: 10px;
-  max-height: 500px;
-  padding: 20px;
-  font-size: 14px;
-  overflow: hidden;
   margin: 0 auto;
-  width: 300px;
-  height: 300px;
+  overflow: scroll;
 }
 
 .hljs {
   background-color: #333;
-  height: 300px;
   color: white;
   font-size: 18px;
+  height: 400px;
 }
 
 .overlay {
@@ -153,5 +164,10 @@ pre {
   width: 300px;
   margin: 0 auto;
   position: relative;
+}
+
+.red {
+  color: red;
+  background-color: yellow;
 }
 </style>
