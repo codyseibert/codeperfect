@@ -1,30 +1,30 @@
 <template>
   <div class="snippit">
-    <md-card>
-      <md-card-media>
+    <v-card>
+      <v-card-media>
         <pre v-highlightjs="snippit.code">
           <code class="javascript"></code>
         </pre>
-      </md-card-media>
+      </v-card-media>
 
-      <md-card-header>
-        <div class="md-title">{{snippit.title}}</div>
-      </md-card-header>
+      <v-card-title>
+        <h5>{{snippit.title}}</h5>
+      </v-card-title>
 
-      <md-card-actions>
+      <v-card-actions>
         <router-link :to="{ name: 'practice', params: { snippitId: snippit.id }}">
-          <md-button class="md-primary">
-            <md-icon>keyboard</md-icon> Practice
-          </md-button>
+          <v-btn flat primary>
+            <v-icon>keyboard</v-icon> Practice
+          </v-btn>
         </router-link>
 
         <router-link :to="{ name: 'progress', params: { snippitId: snippit.id }}">
-          <md-button class="md-primary">
-            <md-icon>show_chart</md-icon> Progress
-          </md-button>
+          <v-btn flat primary>
+            <v-icon>show_chart</v-icon> Progress
+          </v-btn>
         </router-link>
-      </md-card-actions>
-    </md-card>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 

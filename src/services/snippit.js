@@ -3,8 +3,8 @@ const snippits = [
   {
     id: 0,
     languageId: 0,
-    code: 'var i = 1;',
-    title: 'Declare some Variables'
+    code: 'vvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\nvvv\n',
+    title: 'Game Over Man'
   },
   {
     id: 4,

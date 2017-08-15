@@ -4,18 +4,18 @@
       <h4>Languages</h4>
 
       <div class="buttons full scroll">
-        <md-button
+        <v-btn flat primary
           v-for="language in languages"
           key="language.id"
           @click="select(language)"
           :class="{
-            language: true,
-            'md-accent': selectedLanguage.id === language.id,
-            'md-primary': selectedLanguage.id !== language.id
+            language: true
+            /*'md-accent': selectedLanguage.id === language.id,
+            'md-primary': selectedLanguage.id !== language.id*/
           }"
           >
           {{language.name}}
-        </md-button>
+        </v-btn>
       </div>
     </div>
   </v-flex>

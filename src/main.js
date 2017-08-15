@@ -3,9 +3,9 @@ import Vue from 'vue'
 import App from './components/App.vue'
 
 import VueRouter from 'vue-router'
-import VueMaterial from 'vue-material'
+// import VueMaterial from 'vue-material'
 import VueCodeMirror from 'vue-codemirror'
-import 'vue-material/dist/vue-material.css'
+// import 'vue-material/dist/vue-material.css'
 import 'codemirror/mode/javascript/javascript'
 import { sync } from 'vuex-router-sync'
 import store from './store/store'
@@ -14,7 +14,7 @@ import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 // import VueCharts from 'vue-chartjs'
 
-Vue.use(VueMaterial)
+// Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueCodeMirror)
 Vue.use(VueHighlightJS)
@@ -26,15 +26,15 @@ import Practice from './components/views/practice.vue'
 import Results from './components/views/results.vue'
 import Progress from './components/views/progress.vue'
 
-Vue.material.registerTheme('default', {
-  primary: {
-    color: 'cyan',
-    hue: 400,
-    textColor: 'white'
-  },
-  accent: 'red',
-  warn: 'red'
-})
+// Vue.material.registerTheme('default', {
+//   primary: {
+//     color: 'cyan',
+//     hue: 400,
+//     textColor: 'white'
+//   },
+//   accent: 'red',
+//   warn: 'red'
+// })
 
 const routes = [
   {
