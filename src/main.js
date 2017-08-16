@@ -23,18 +23,8 @@ Vue.use(Vuetify)
 
 import Snippits from './components/views/snippits/main.vue'
 import Practice from './components/views/practice.vue'
-import Results from './components/views/results.vue'
 import Progress from './components/views/progress.vue'
-
-// Vue.material.registerTheme('default', {
-//   primary: {
-//     color: 'cyan',
-//     hue: 400,
-//     textColor: 'white'
-//   },
-//   accent: 'red',
-//   warn: 'red'
-// })
+import Results from './components/views/results.vue'
 
 const routes = [
   {
@@ -49,16 +39,15 @@ const routes = [
     props: (route) => ({snippitId: parseInt(route.params.snippitId)})
   },
   {
-    name: 'results',
-    path: '/results/:snippitId',
-    component: Results,
-    props: (route) => ({snippitId: parseInt(route.params.snippitId)})
-  },
-  {
     name: 'progress',
     path: '/progress/:snippitId',
     component: Progress,
     props: (route) => ({snippitId: parseInt(route.params.snippitId)})
+  },
+  {
+    name: 'results',
+    path: '/results',
+    component: Results
   },
   {
     path: '*',

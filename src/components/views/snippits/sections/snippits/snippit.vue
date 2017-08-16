@@ -12,17 +12,13 @@
       </v-card-title>
 
       <v-card-actions>
-        <router-link :to="{ name: 'practice', params: { snippitId: snippit.id }}">
-          <v-btn flat primary>
-            <v-icon>keyboard</v-icon> Practice
-          </v-btn>
-        </router-link>
+        <v-btn dark primary @click="gotoRoute('practice')">
+          <v-icon>keyboard</v-icon> Practice
+        </v-btn>
 
-        <router-link :to="{ name: 'progress', params: { snippitId: snippit.id }}">
-          <v-btn flat primary>
-            <v-icon>show_chart</v-icon> Progress
-          </v-btn>
-        </router-link>
+        <v-btn dark primary @click="gotoRoute('progress')">
+          <v-icon>show_chart</v-icon> Progress
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -40,6 +36,16 @@ export default {
         readOnly: true,
         theme: 'base16-dark'
       }
+    }
+  },
+  methods: {
+    gotoRoute (name) {
+      this.$router.push({
+        name: name,
+        params: {
+          snippitId: this.snippit.id
+        }
+      });
     }
   },
   props: {
@@ -75,5 +81,12 @@ code {
 
 .snippit {
   padding: 10px;
+}
+
+</style>
+
+<style scoped>
+.icon {
+  margin-right: 10px;
 }
 </style>

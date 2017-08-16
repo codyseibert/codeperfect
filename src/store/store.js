@@ -4,18 +4,25 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  trict: true,
+  strict: true,
   state: {
-    selectedLanguage: {}
+    selectedLanguage: {},
+    results: {}
   },
   mutations: {
     setSelectedLanguage (state, selectedLanguage) {
       state.selectedLanguage = selectedLanguage
+    },
+    setResults (state, results) {
+      state.results = results;
     }
   },
   actions: {
     setSelectedLanguage ({commit}, selectedLanguage) {
       commit('setSelectedLanguage', selectedLanguage)
+    },
+    setResults ({commit}, results) {
+      commit('setResults', results);
     }
   },
   getters: {

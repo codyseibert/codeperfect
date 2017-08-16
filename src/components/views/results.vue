@@ -1,248 +1,205 @@
 <template>
   <v-layout column>
-    <h3>Great Job!</h3>
-
-    <v-layout class="mb-4">
-      <v-flex xs4 offset-xs2>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Accuracy</v-toolbar-title>
-          </v-toolbar>
-
-          <v-card-media class="text-center">
-            <canvas id="accuracy"></canvas>
-            <div class="center">{{result.accuracy}}%</div>
-          </v-card-media>
-        </v-card>
+    <v-layout row wrap>
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center red white-text">
+        <InfoSquare
+          icon="timer"
+          :value="results.time + 's'"
+          title="Elasped Time" />
       </v-flex>
 
-      <v-flex xs4>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>CPM</v-toolbar-title>
-          </v-toolbar>
-
-          <v-card-media class="text-center">
-            <canvas id="cpm"></canvas>
-            <div class="center">{{result.cpm}} </div>
-          </v-card-media>
-        </v-card>
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center blue white-text">
+        <InfoSquare
+          icon="keyboard"
+          :value="results.cpm"
+          title="CPM" />
       </v-flex>
-    </v-layout>
 
-    <v-layout class="mb-4" row>
-      <v-flex xs8 offset-xs2>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Typing Summary</v-toolbar-title>
-          </v-toolbar>
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center yellow white-text">
+        <InfoSquare
+          icon="track_changes"
+          :value="results.accuracy"
+          title="Accuracy" />
+      </v-flex>
 
-          <v-card-media class="text-center">
-            <h4>Typeable Characters: {{result.total}}</h4>
-            <h4>Typed Characters: {{result.typed}}</h4>
-            <h4>Elasped Time: {{result.time}}</h4>
-          </v-card-media>
-        </v-card>
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center green white-text">
+        <InfoSquare
+          icon="error"
+          :value="results.incorrect"
+          title="Incorrect" />
       </v-flex>
     </v-layout>
 
-    <v-layout class="mb-4">
-      <v-flex xs8 offset-xs2>
-        <v-card>
-          <v-toolbar class="blue lighten-4">
-            <v-toolbar-title>Typing Error Map</v-toolbar-title>
+    <v-layout row wrap class="mt-4">
+      <v-flex xs12 md6 class="pb-4">
+        <div class="white elevation-2">
+          <v-toolbar flat dense class="cyan" dark>
+            <v-toolbar-title>Error Heat Map</v-toolbar-title>
           </v-toolbar>
 
-          <v-card-media class="keyboard-wrapper">
-            <div id="keyboard" />
-          </v-card-media>
-        </v-card>
+          <div class="keyboard-wrapper">
+            <Keyboard :errorMap="results.errorMap" />
+          </div>
+        </div>
+      </v-flex>
+
+      <v-flex xs12 md6 class="pb-4">
+        <div class="white elevation-2">
+          <v-toolbar flat dense class="cyan" dark>
+            <v-toolbar-title>Incorrect Keys</v-toolbar-title>
+          </v-toolbar>
+
+          <div class="keyboard-wrapper">
+            <v-data-table
+              :headers="[{
+                text: 'Key',
+                value: 'key'
+              }, {
+                text: 'Incorrect',
+                value: 'incorrect'
+              }, {
+                text: 'Percent Err',
+                value: 'percent'
+              }]"
+              :pagination.sync="pagination"
+              :items="errors"
+              hide-actions
+              dark
+              class="elevation-1"
+            >
+              <template slot="items" scope="props">
+                <td class="text-xs-right">{{ props.item.key }}</td>
+                <td class="text-xs-right">{{ props.item.incorrect }}</td>
+                <td class="text-xs-right">{{ props.item.percent }}</td>
+              </template>
+            </v-data-table>
+          </div>
+        </div>
       </v-flex>
     </v-layout>
+
+    <v-flex xs6 offset-xs3 class="text-xs-center mt-5 mb-5">
+      <v-btn primary dark class="cyan" @click="gotoProgress">
+        <v-icon class="mr-2">show_chart</v-icon> View Progress
+      </v-btn>
+    </v-flex>
+
   </v-layout>
 </template>
 
 <script>
-import ResultsService from '../../services/results'
-import Keyboard from '../../responsive-keyboard'
+import InfoSquare from './progress/InfoSquare.vue'
+import Keyboard from '../common/Keyboard.vue'
+
+import { mapState } from 'vuex'
 
 export default {
   data () {
     return {
-      result: {}
+      errors: [],
+      pagination: {
+        sortBy: 'incorrect',
+        descending: true
+      }
     }
   },
-  props: [
-    'snippitId'
-  ],
+  computed: mapState([
+    'results'
+  ]),
+  components: {
+    InfoSquare,
+    Keyboard
+  },
   methods: {
+    gotoProgress () {
+      this.$router.push({
+        name: 'progress',
+        params: {
+          snippitId: this.results.snippitId
+        }
+      });
+    }
   },
   mounted () {
-    const keyboard = Keyboard({
-      selector: '#keyboard',
-      style: 'black'
-    });
-    keyboard.getKey('a').style.backgroundColor = 'red'
+    let total = 0;
+    for (let [key, incorrect] of Object.entries(this.results.errorMap))
+      total += incorrect;
 
-    const results = ResultsService.findBySnippitId(this.snippitId);
-    this.result = results[0];
-
-    const accuracyContext = $('#accuracy')[0].getContext('2d');
-    new Chart(accuracyContext).Doughnut([{
-      value: this.result.accuracy,
-      label: 'Accuracy',
-      color: '#CF7F00'
-    },{
-      value: 100 - this.result.accuracy,
-      label: '',
-      color: '#E3E3E3'
-    }], {
-      showTooltips: false,
-      responsive: false,
-      percentageInnerCutout: 80,
-      animationEasing: 'easeOutQuart',
-      animateScale: false
-    });
-
-    const cpmContext = $('#cpm')[0].getContext('2d');
-    new Chart(cpmContext).Doughnut([{
-      value: this.result.cpm,
-      label: 'CPM',
-      color: '#CF7F00'
-    },{
-      value: 500 - this.result.cpm,
-      label: '',
-      color: '#E3E3E3'
-    }], {
-      showTooltips: false,
-      responsive: false,
-      percentageInnerCutout: 80,
-      animationEasing: 'easeOutQuart',
-      animateScale: false
-    });
+    for (let [key, incorrect] of Object.entries(this.results.errorMap)) {
+      key = key === " " ? "space" : key
+      this.errors.push({
+        key: key,
+        incorrect: incorrect,
+        percent: parseInt(incorrect / total * 100) + "%"
+      });
+    }
   }
 }
 </script>
 
 <style>
+.cursor {
+  color: red;
+  background-color: yellow;
+}
+</style>
 
-h1, h2, h3, h4, h5, h6 {
+<style scoped>
+h1 {
   text-align: center;
-}
-
-.responsive-keyboard {
-  border-radius: 10px;
-  background-color: #cccfd5;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  font-family: 'Helvetica'
-}
-
-.responsive-keyboard .row {
-  flex: 1;
-  display: flex;
-  padding-bottom: 10px;
-}
-
-.responsive-keyboard .key {
-  display: flex;
-  width: 6.896551724137931%;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  margin-right: 5px;
-  text-align: center;
-  vertical-align: middle;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.responsive-keyboard.white .key {
-  color: black;
-  background-color: white;
-  border: 1px solid black;
-}
-
-.responsive-keyboard .key.delete {
-  width: 13.793103448275862%;
-}
-
-.responsive-keyboard .key.tab {
-  width: 14.793103448275862%;
-}
-
-.responsive-keyboard .key.caps {
-  width: 16.493103448275862%;
-}
-
-.responsive-keyboard .key.return {
-  width: 15.793103448275862%;
-}
-
-.responsive-keyboard .key.shift {
-  width: 17.793103448275862%;
-}
-
-.responsive-keyboard .key.command {
-  width: 7.793103448275862%;
-}
-
-.responsive-keyboard .key.space {
-  width: 28%;
-}
-
-.responsive-keyboard .bottom .key {
-  width: 6.5%;
-}
-
-.responsive-keyboard .bottom .key.command {
-  width: 8%;
-}
-
-.responsive-keyboard .bottom .key.space {
-  width: 33%;
-}
-
-.expand {
-  width: 100%;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.mt {
   margin-top: 40px;
 }
 
-.md-card-media {
-  padding: 20px;
+pre {
+  margin: 0 auto;
 }
 
-canvas + .center {
-  font-size: 30px;
+.hljs {
+  background-color: black;
+  color: white;
+  font-size: 18px;
+  height: 500px;
+  overflow: auto;
   position: relative;
-  top: -74px;
-  text-align: center;
 }
 
-.text-center {
-  text-align: center;
+.overlay {
+  position: relative;
+  top: -270px;
+  left: 18px;
+  font-size: 18px;
+}
+
+.code {
+  position: relative;
+}
+
+.red {
+  color: red;
+  background-color: yellow;
+}
+
+.white {
+  background-color: white;
+}
+
+.red {
+  background-color: #e57373;
+}
+
+.blue {
+  background-color: #64b5f6;
+}
+
+.green {
+  background-color: #81c884;
+}
+
+.yellow {
+  background-color: #ffd54f;
 }
 
 .keyboard-wrapper {
   padding: 20px;
-  text-align: center;
-}
-
-.toolbar {
-  box-shadow: none;
-}
-
-canvas {
-  position: relative;
-  top: 24px;
 }
 </style>

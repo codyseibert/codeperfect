@@ -10,7 +10,6 @@ export default {
   },
 
   addResult (r) {
-    console.log(JSON.stringify(r));
     const snippitId = r.snippitId;
     results[snippitId] = (results[snippitId] || []).concat(r);
   }

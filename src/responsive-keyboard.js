@@ -92,7 +92,7 @@ export default function(options) {
   function refresh() {
     var k = document.querySelector(options.selector + ' .responsive-keyboard');
     var parentWidth = getParentWidth(k);
-    k.style.width = parentWidth - 20 + 'px';
+    k.style.width = parentWidth + 'px';
     k.style.height = ((parentWidth - 20) / 2.54) + 'px';
     k.style.fontSize = parentWidth / 50 + 'px';
   }

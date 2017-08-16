@@ -54,14 +54,21 @@
 
     <v-layout class="pt-5" column>
       <v-layout>
-        <v-flex xs6 class="text-xs-center">
+        <v-flex xs4 class="text-xs-center">
+          <div class="inline-block chart-wrapper">
+            <h5 class="text-xs-center">Elapsed Time</h5>
+            <cpm-chart :data="timeData" :options="options"/>
+          </div>
+        </v-flex>
+
+        <v-flex xs4 class="text-xs-center">
           <div class="inline-block chart-wrapper">
             <h5 class="text-xs-center">CPM</h5>
             <cpm-chart :data="cpmData" :options="options"/>
           </div>
         </v-flex>
 
-        <v-flex xs6 class="text-xs-center">
+        <v-flex xs4 class="text-xs-center">
           <div class="inline-block chart-wrapper">
             <h5 class="text-xs-center">Accuracy</h5>
             <cpm-chart :data="accuracyData" :options="options"/>
@@ -127,16 +134,34 @@ export default {
       ],
       snippit: {},
       options: {
-        showTooltips: false,
+        showTooltips: true,
         responsive: true,
+        legend: false,
         percentageInnerCutout: 80,
         animationEasing: 'easeOutQuart',
         animateScale: false
       },
+      timeData: {
+        labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
+        datasets: [{
+          label: "Time",
+          data: [
+            3.20,
+            3.15,
+            2.56,
+            2.30,
+            2.4,
+            2.4,
+            2.45,
+            2.5
+          ],
+          fill: true,
+        }]
+      },
       accuracyData: {
         labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
         datasets: [{
-          label: "CPM vs Attempt",
+          label: "Accuracy",
           data: [
             1,
             2,
@@ -147,13 +172,13 @@ export default {
             4,
             5
           ],
-          fill: false,
+          fill: true,
         }]
       },
       cpmData: {
         labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
         datasets: [{
-          label: "CPM vs Attempt",
+          label: "CPM",
           data: [
             1,
             2,
@@ -164,13 +189,14 @@ export default {
             4,
             5
           ],
-          fill: false,
+          fill: true,
         }]
       }
     }
   },
   async mounted () {
     this.snippit = await SnippitService.findById(this.snippitId);
+    console.log(this.snippit);
   },
   props: [
     'snippitId'
@@ -223,8 +249,8 @@ code {
 }
 
 .chart-wrapper {
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 table {

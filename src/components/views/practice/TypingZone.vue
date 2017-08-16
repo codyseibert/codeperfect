@@ -12,6 +12,8 @@ export default {
   },
   methods: {
     start () {
+
+
       function convertAllTextToSpan() {
         const nodes = $('#code').contents();
         let newHtml = $("<div></div>");
@@ -48,11 +50,24 @@ export default {
 
       const code = this.code;
       const start = new Date();
+      let seconds = 0;
       let i = 0;
       let typed = 0;
       let correct = 0;
+      let incorrect = 0;
+      let errorMap = {};
 
       setCharacterAsRed(i);
+
+      const updateInterval = setInterval(() => {
+        seconds = Math.floor((new Date() - start) / 1000);
+
+        this.$emit('update', {
+          time: seconds,
+          cpm: Math.floor((correct / seconds) * 60),
+          accuracy: Math.floor(correct / (typed * 1.0) * 100)
+        });
+      }, 1000)
 
       let onKeyPress = (event) => {
         this.$emit('typed')
@@ -67,19 +82,25 @@ export default {
           correct++;
           i++;
           setCharacterAsRed(i);
+        } else {
+          incorrect++;
+          errorMap[event.key] = (errorMap[event.key] || 0) + 1;
         }
 
         if (i === code.length) {
+          clearInterval(updateInterval);
+
           this.done = true
-          const seconds = Math.floor((new Date() - start) / 1000);
+          seconds = Math.floor((new Date() - start) / 1000);
           window.removeEventListener('keypress', onKeyPress);
           this.$emit('onResults', {
-            snippitId: this.snippitId,
             time: seconds,
             cpm: Math.floor((correct / seconds) * 60),
             accuracy: Math.floor(correct / (typed * 1.0) * 100),
             correct: correct,
+            incorrect: incorrect,
             typed: typed,
+            errorMap: errorMap,
             total: code.length
           });
         }
@@ -118,7 +139,7 @@ pre {
   background-color: black;
   color: white;
   font-size: 18px;
-  height: 500px;
+  height: 400px;
   overflow: auto;
   position: relative;
 }
