@@ -16,33 +16,33 @@
       </v-flex>
     </v-layout>
 
-    <v-layout class="pt-5">
-      <v-flex xs3 class="text-xs-center">
-        <InfoSquare
-          icon="replay"
-          value="5"
-          title="Attempts" />
-      </v-flex>
-
-      <v-flex xs3 class="text-xs-center">
+    <v-layout row wrap>
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center red white-text">
         <InfoSquare
           icon="timer"
-          value="3:21"
+          :value="time + 's'"
           title="Best Time" />
       </v-flex>
 
-      <v-flex xs3 class="text-xs-center">
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center blue white-text">
         <InfoSquare
           icon="keyboard"
-          value="430"
+          :value="cpm"
           title="Best CPM" />
       </v-flex>
 
-      <v-flex xs3 class="text-xs-center">
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center yellow white-text">
         <InfoSquare
           icon="track_changes"
-          value="95%"
+          :value="accuracy"
           title="Best Accuracy" />
+      </v-flex>
+
+      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center green white-text">
+        <InfoSquare
+          icon="error"
+          :value="incorrect"
+          title="Best Incorrect" />
       </v-flex>
     </v-layout>
 
@@ -108,14 +108,19 @@
 
 <script>
 import ResultsService from '../../services/results'
+import SnippitService from '../../services/snippit'
 import Keyboard from '../../responsive-keyboard'
 import CpmChart from './CpmChart'
-import SnippitService from '../../services/snippit'
 import InfoSquare from './progress/InfoSquare.vue'
 
 export default {
   data () {
     return {
+      results: [],
+      cpm: null,
+      time: null,
+      accuracy: null,
+      incorrect: null,
       attempts: [
         {
           id: 1,
@@ -196,7 +201,22 @@ export default {
   },
   async mounted () {
     this.snippit = await SnippitService.findById(this.snippitId);
-    console.log(this.snippit);
+    this.results = await ResultsService.findBySnippitId(this.snippitId);
+    console.log(this.results);
+    let bestCpm = 0;
+    let bestTime = Infinity;
+    let bestAccuracy = 0;
+    let bestIncorrect = Infinity;
+    for (let result of this.results) {
+      bestCpm = Math.max(bestCpm, result.cpm)
+      bestTime = Math.min(bestTime, result.time)
+      bestAccuracy = Math.max(bestAccuracy, result.accuracy)
+      bestIncorrect = Math.min(bestIncorrect, result.incorrect)
+    }
+    this.cpm = bestCpm;
+    this.time = bestTime;
+    this.accuracy = bestAccuracy;
+    this.incorrect = bestIncorrect;
   },
   props: [
     'snippitId'

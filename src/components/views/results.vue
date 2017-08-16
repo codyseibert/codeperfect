@@ -31,7 +31,7 @@
     </v-layout>
 
     <v-layout row wrap class="mt-4">
-      <v-flex xs12 md6 class="pb-4">
+      <v-flex xs12 md6>
         <div class="white elevation-2">
           <v-toolbar flat dense class="cyan" dark>
             <v-toolbar-title>Error Heat Map</v-toolbar-title>
@@ -43,7 +43,7 @@
         </div>
       </v-flex>
 
-      <v-flex xs12 md6 class="pb-4">
+      <v-flex xs12 md6>
         <div class="white elevation-2">
           <v-toolbar flat dense class="cyan" dark>
             <v-toolbar-title>Incorrect Keys</v-toolbar-title>
@@ -78,7 +78,7 @@
       </v-flex>
     </v-layout>
 
-    <v-flex xs6 offset-xs3 class="text-xs-center mt-5 mb-5">
+    <v-flex xs6 offset-xs3 class="text-xs-center mt-3">
       <v-btn primary dark class="cyan" @click="gotoProgress">
         <v-icon class="mr-2">show_chart</v-icon> View Progress
       </v-btn>

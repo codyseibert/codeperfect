@@ -123,7 +123,7 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #e9effb;
+  /*background-color: #e9effb;*/
 }
 
 .logo {
