@@ -33,6 +33,14 @@
     <v-toolbar fixed class="cyan" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>CodePerfect</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <router-link v-if="!$store.state.token" :to="{name: 'login'}">
+          <v-btn flat>
+            <v-icon>login</v-icon> Login
+          </v-btn>
+        </router-link>
+      </v-toolbar-items>
     </v-toolbar>
 
     <main>
@@ -90,35 +98,9 @@ export default {
 </script>
 
 <style>
-/*html, body{
-  height: 100%;
-  margin: 0;
+a {
+  text-decoration: none;
 }
-
-#app {
-  height: 100%;
-  margin: 0px auto;
-  overflow: hidden;
-}
-
-.wrapper {
-  height: 100%;
-  overflow: hidden;
-}
-
-.scroll {
-  overflow: auto;
-}
-
-.full {
-  height: 100%;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}*/
-
-
 </style>
 
 <style scoped>

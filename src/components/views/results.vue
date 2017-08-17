@@ -78,10 +78,12 @@
       </v-flex>
     </v-layout>
 
-    <v-flex xs6 offset-xs3 class="text-xs-center mt-3">
-      <v-btn primary dark class="cyan" @click="gotoProgress">
-        <v-icon class="mr-2">show_chart</v-icon> View Progress
-      </v-btn>
+    <v-flex v-if="$store.state.token" xs6 offset-xs3 class="text-xs-center mt-3">
+      <router-link :to="{ name: 'progress', params: { snippitId: this.results.snippitId }}">
+        <v-btn primary dark class="cyan">
+          <v-icon class="mr-2">show_chart</v-icon> View Progress
+        </v-btn>
+      </router-link>
     </v-flex>
 
   </v-layout>
@@ -92,6 +94,7 @@ import InfoSquare from './progress/InfoSquare.vue'
 import Keyboard from '../common/Keyboard.vue'
 
 import { mapState } from 'vuex'
+import _ from 'lodash'
 
 export default {
   data () {
@@ -110,17 +113,13 @@ export default {
     InfoSquare,
     Keyboard
   },
-  methods: {
-    gotoProgress () {
-      this.$router.push({
-        name: 'progress',
-        params: {
-          snippitId: this.results.snippitId
-        }
-      });
-    }
-  },
   mounted () {
+    if (_.isEmpty(this.results)) {
+      this.$router.push({
+        name: 'snippits'
+      });
+      return;
+    }
     let total = 0;
     for (let [key, incorrect] of Object.entries(this.results.errorMap))
       total += incorrect;

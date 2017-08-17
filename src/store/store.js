@@ -1,13 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   strict: true,
+  plugins: [createPersistedState()],
   state: {
     selectedLanguage: {},
-    results: {}
+    results: {},
+    token: null,
+    user: null
   },
   mutations: {
     setSelectedLanguage (state, selectedLanguage) {
@@ -15,6 +19,12 @@ const store = new Vuex.Store({
     },
     setResults (state, results) {
       state.results = results;
+    },
+    setToken (state, token) {
+      state.token = token;
+    },
+    setUser (state, user) {
+      state.user = user;
     }
   },
   actions: {
@@ -23,9 +33,13 @@ const store = new Vuex.Store({
     },
     setResults ({commit}, results) {
       commit('setResults', results);
+    },
+    setToken ({commit}, token) {
+      commit('setToken', token);
+    },
+    setUser ({commit}, user) {
+      commit('setUser', user);
     }
-  },
-  getters: {
   }
 })
 

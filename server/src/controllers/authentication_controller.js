@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 function jwtSignUser (user) {
   return jwt.sign(user, config.jwtSecret, {
-    expiresIn: 60 * 30
+    expiresIn: 60 * 30 * 24
   });
 }
 

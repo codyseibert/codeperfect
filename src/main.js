@@ -25,6 +25,7 @@ import Snippits from './components/views/snippits/main.vue'
 import Practice from './components/views/practice.vue'
 import Progress from './components/views/progress.vue'
 import Results from './components/views/results.vue'
+import Login from './components/views/Login.vue'
 
 const routes = [
   {
@@ -36,18 +37,23 @@ const routes = [
     name: 'practice',
     path: '/practice/:snippitId',
     component: Practice,
-    props: (route) => ({snippitId: parseInt(route.params.snippitId)})
+    props: true
   },
   {
     name: 'progress',
     path: '/progress/:snippitId',
     component: Progress,
-    props: (route) => ({snippitId: parseInt(route.params.snippitId)})
+    props: true
   },
   {
     name: 'results',
     path: '/results',
     component: Results
+  },
+  {
+    name: 'login',
+    path: '/login',
+    component: Login
   },
   {
     path: '*',

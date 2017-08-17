@@ -57,21 +57,21 @@
         <v-flex xs4 class="text-xs-center">
           <div class="inline-block chart-wrapper">
             <h5 class="text-xs-center">Elapsed Time</h5>
-            <cpm-chart :data="timeData" :options="options"/>
+            <cpm-chart ref="timeChart" :data="timeData" :options="options"/>
           </div>
         </v-flex>
 
         <v-flex xs4 class="text-xs-center">
           <div class="inline-block chart-wrapper">
             <h5 class="text-xs-center">CPM</h5>
-            <cpm-chart :data="cpmData" :options="options"/>
+            <cpm-chart ref="cpmChart" :data="cpmData" :options="options"/>
           </div>
         </v-flex>
 
         <v-flex xs4 class="text-xs-center">
           <div class="inline-block chart-wrapper">
             <h5 class="text-xs-center">Accuracy</h5>
-            <cpm-chart :data="accuracyData" :options="options"/>
+            <cpm-chart ref="accuracyChart" :data="accuracyData" :options="options"/>
           </div>
         </v-flex>
       </v-layout>
@@ -85,31 +85,46 @@
 
     <v-layout class="attempts">
       <v-flex xs8 offset-xs2>
-        <h5 class="text-xs-center">Your Attempts</h5>
+        <div class="white elevation-2">
+          <v-toolbar flat dense class="cyan" dark>
+            <v-toolbar-title>Reports</v-toolbar-title>
+          </v-toolbar>
 
-        <table>
-          <tr>
-            <th>Attempt</th>
-            <th>Time</th>
-            <th>Accuracy</th>
-            <th>CPM</th>
-          </tr>
-          <tr v-for="attempt in attempts">
-            <td>{{attempt.number}}</td>
-            <td>{{attempt.time}}</td>
-            <td>{{attempt.accuracy}}</td>
-            <td>{{attempt.cpm}}</td>
-          </tr>
-        </table>
+          <v-data-table
+            :headers="[{
+              text: 'Time',
+              value: 'time'
+            }, {
+              text: 'CPM',
+              value: 'cpm'
+            }, {
+              text: 'Accuracy',
+              value: 'accuracy'
+            }, {
+              text: 'Incorrect',
+              value: 'incorrect'
+            }]"
+            :pagination.sync="pagination"
+            :items="reports"
+            hide-actions
+            dark
+          >
+            <template slot="items" scope="props">
+              <td class="text-xs-right">{{ props.item.time }}</td>
+              <td class="text-xs-right">{{ props.item.cpm }}</td>
+              <td class="text-xs-right">{{ props.item.accuracy }}</td>
+              <td class="text-xs-right">{{ props.item.incorrect }}</td>
+            </template>
+          </v-data-table>
+        </div>
       </v-flex>
     </v-layout>
   </v-layout>
 </template>
 
 <script>
-import ResultsService from '../../services/results'
-import SnippitService from '../../services/snippit'
-import Keyboard from '../../responsive-keyboard'
+import ReportsService from '../../services/reports_service'
+import SnippitService from '../../services/snippits_service'
 import CpmChart from './CpmChart'
 import InfoSquare from './progress/InfoSquare.vue'
 
@@ -121,22 +136,11 @@ export default {
       time: null,
       accuracy: null,
       incorrect: null,
-      attempts: [
-        {
-          id: 1,
-          number: 1,
-          cpm: 430,
-          accuracy: 85,
-          time: '3:21'
-        },
-        {
-          id: 2,
-          number: 2,
-          cpm: 230,
-          accuracy: 99,
-          time: '3:01'
-        }
-      ],
+      reports: [],
+      pagination: {
+        sortBy: 'date',
+        descending: true
+      },
       snippit: {},
       options: {
         showTooltips: true,
@@ -147,72 +151,58 @@ export default {
         animateScale: false
       },
       timeData: {
-        labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
+        labels: [],
         datasets: [{
           label: "Time",
-          data: [
-            3.20,
-            3.15,
-            2.56,
-            2.30,
-            2.4,
-            2.4,
-            2.45,
-            2.5
-          ],
+          data: [],
           fill: true,
         }]
       },
       accuracyData: {
-        labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
+        labels: [],
         datasets: [{
           label: "Accuracy",
-          data: [
-            1,
-            2,
-            3,
-            4,
-            5,
-            3,
-            4,
-            5
-          ],
+          data: [],
           fill: true,
         }]
       },
       cpmData: {
-        labels: ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8'],
+        labels: [],
         datasets: [{
           label: "CPM",
-          data: [
-            1,
-            2,
-            3,
-            4,
-            5,
-            3,
-            4,
-            5
-          ],
+          data: [],
           fill: true,
         }]
       }
     }
   },
   async mounted () {
-    this.snippit = await SnippitService.findById(this.snippitId);
-    this.results = await ResultsService.findBySnippitId(this.snippitId);
-    console.log(this.results);
+    this.snippit = await SnippitService.show(this.snippitId);
+    this.results = await ReportsService.index({snippitId: this.snippitId});
+    this.reports = this.results;
+
     let bestCpm = 0;
     let bestTime = Infinity;
     let bestAccuracy = 0;
     let bestIncorrect = Infinity;
-    for (let result of this.results) {
+    this.results.forEach((result, index) => {
+      this.timeData.labels.push(index + 1);
+      this.timeData.datasets[0].data.push(result.time);
+      this.accuracyData.labels.push(index + 1);
+      this.accuracyData.datasets[0].data.push(result.accuracy);
+      this.cpmData.labels.push(index + 1);
+      this.cpmData.datasets[0].data.push(result.cpm);
+
       bestCpm = Math.max(bestCpm, result.cpm)
       bestTime = Math.min(bestTime, result.time)
       bestAccuracy = Math.max(bestAccuracy, result.accuracy)
       bestIncorrect = Math.min(bestIncorrect, result.incorrect)
-    }
+    });
+
+    this.$refs.timeChart.render();
+    this.$refs.cpmChart.render();
+    this.$refs.accuracyChart.render();
+
     this.cpm = bestCpm;
     this.time = bestTime;
     this.accuracy = bestAccuracy;

@@ -25,8 +25,12 @@ app.post('/snippits',
   hasRole('admin'),
   SnippitsCtrl.post);
 
-app.get('/reports', ReportsCtrl.index);
-app.get('/reports/:id', ReportsCtrl.show);
+app.get('/reports',
+  requireAuth,
+  ReportsCtrl.index);
+app.get('/reports/:id',
+  requireAuth,
+  ReportsCtrl.show);
 app.post('/reports',
   requireAuth,
   ReportsCtrl.post);

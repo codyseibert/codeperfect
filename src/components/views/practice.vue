@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import SnippitService from '../../services/snippit'
-import ResultsService from '../../services/results'
+import SnippitsService from '../../services/snippits_service'
+import ReportsService from '../../services/reports_service'
 import TypingZone from './practice/TypingZone.vue'
 
 export default {
@@ -27,7 +27,7 @@ export default {
     }
   },
   props: {
-    snippitId: Number
+    snippitId: String
   },
   components: {
     TypingZone
@@ -36,9 +36,12 @@ export default {
     onTyped () {
       this.typing = true;
     },
-    onResults (results) {
+    async onResults (results) {
       results.snippitId = this.snippitId;
-      ResultsService.addResult(results);
+
+      if (this.$store.state.token) {
+        await ReportsService.post(results);
+      }
       this.$store.dispatch('setResults', results);
       this.$router.push({
         name: 'results'
@@ -46,7 +49,7 @@ export default {
     }
   },
   async mounted () {
-    const snippit = await SnippitService.findById(this.snippitId);
+    const snippit = await SnippitsService.show(this.snippitId);
     this.code = snippit.code;
     setTimeout(() => {
       this.$refs.typingZone.start();
@@ -63,47 +66,5 @@ export default {
 </style>
 
 <style scoped>
-/*h1 {
-  text-align: center;
-  margin-top: 40px;
-}
 
-pre {
-  margin: 0 auto;
-}
-
-.hljs {
-  background-color: black;
-  color: white;
-  font-size: 18px;
-  height: 500px;
-  overflow: auto;
-  position: relative;
-}
-
-.overlay {
-  position: relative;
-  top: -270px;
-  left: 18px;
-  font-size: 18px;
-}
-
-.code {
-  position: relative;
-}
-
-.wrap {
-  width: 300px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.red {
-  color: red;
-  background-color: yellow;
-}
-
-.white {
-  background-color: white;
-}*/
 </style>

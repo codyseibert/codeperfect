@@ -1,5 +1,6 @@
 const Snippit = require('../models/snippit')
 const ObjectId = require('mongoose').Types.ObjectId
+const ErrorHandler = require('../errors/ErrorHandler')
 
 module.exports = {
   async index (req, res) {

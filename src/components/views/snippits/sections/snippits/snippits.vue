@@ -21,7 +21,7 @@
 
 
 <script>
-import SnippitService from '../../../../../services/snippit'
+import SnippitService from '../../../../../services/snippits_service'
 import Snippit from './snippit.vue'
 import {mapState} from 'vuex'
 
@@ -52,8 +52,8 @@ export default {
   },
   methods: {
     async loadSnippits () {
-      this.snippits = await SnippitService.find({
-        languageId: this.selectedLanguage.id
+      this.snippits = await SnippitService.index({
+        languageId: this.selectedLanguage._id
       });
     }
   },

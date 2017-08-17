@@ -23,5 +23,7 @@
     "passport-jwt": "^3.0.0",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2"
+  },
+  "devDependencies": {
   }
 }

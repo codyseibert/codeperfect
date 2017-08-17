@@ -6,13 +6,9 @@
       <div class="buttons full scroll">
         <v-btn flat primary
           v-for="language in languages"
-          key="language.id"
+          key="language._id"
           @click="select(language)"
-          :class="{
-            language: true
-            /*'md-accent': selectedLanguage.id === language.id,
-            'md-primary': selectedLanguage.id !== language.id*/
-          }"
+          class="language"
           >
           {{language.name}}
         </v-btn>
@@ -24,7 +20,7 @@
 
 
 <script>
-import LanguageService from '../../../../services/language'
+import LanguageService from '../../../../services/languages_service'
 import {mapState} from 'vuex';
 
 export default {
@@ -39,7 +35,7 @@ export default {
     ])
   },
   async mounted () {
-    this.languages = await LanguageService.getAll()
+    this.languages = await LanguageService.index()
     if (this.languages.length && Object.keys(this.selectedLanguage).length === 0) {
       this.select(this.languages[0])
     }
