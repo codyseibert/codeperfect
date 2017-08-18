@@ -1,90 +1,102 @@
 <template>
   <v-layout column>
     <v-layout>
-      <v-flex xs4 offset-xs4>
-        <h4 class="text-xs-center">Snippit Progress</h4>
+      <v-flex xs12 md6>
+        <div class="white elevation-2">
+          <v-toolbar flat dense class="cyan" dark>
+            <v-toolbar-title>Snippit</v-toolbar-title>
+          </v-toolbar>
 
-        <pre v-highlightjs="snippit.code">
-          <code class="javascript"></code>
-        </pre>
+          <pre v-highlightjs="snippit.code">
+            <code class="javascript"></code>
+          </pre>
+        </div>
+      </v-flex>
+
+      <v-flex xs12 md6>
+        <div class="white elevation-2">
+          <v-toolbar flat dense class="cyan" dark>
+            <v-toolbar-title>Best Metrics</v-toolbar-title>
+          </v-toolbar>
+
+          <v-layout row wrap style="padding: 20px;">
+            <v-flex sm6 xs12 class="text-xs-center mb-4">
+              <InfoSquare
+                icon="timer"
+                :value="time + 's'"
+                title="Best Time" />
+            </v-flex>
+
+            <v-flex sm6 xs12 class="text-xs-center">
+              <InfoSquare
+                icon="keyboard"
+                :value="cpm"
+                title="Best CPM" />
+            </v-flex>
+
+            <v-flex sm6 xs12 class="text-xs-center">
+              <InfoSquare
+                icon="track_changes"
+                :value="accuracy"
+                title="Best Accuracy" />
+            </v-flex>
+
+            <v-flex sm6 xs12 class="text-xs-center">
+              <InfoSquare
+                icon="error"
+                :value="incorrect"
+                title="Best Incorrect" />
+            </v-flex>
+          </v-layout>
+        </div>
       </v-flex>
     </v-layout>
 
-    <v-layout class="pt-5">
+    <!-- <v-layout class="pt-5">
       <v-flex xs4 offset-xs4>
         <v-divider></v-divider>
       </v-flex>
-    </v-layout>
+    </v-layout> -->
 
-    <v-layout row wrap>
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center red white-text">
-        <InfoSquare
-          icon="timer"
-          :value="time + 's'"
-          title="Best Time" />
-      </v-flex>
-
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center blue white-text">
-        <InfoSquare
-          icon="keyboard"
-          :value="cpm"
-          title="Best CPM" />
-      </v-flex>
-
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center yellow white-text">
-        <InfoSquare
-          icon="track_changes"
-          :value="accuracy"
-          title="Best Accuracy" />
-      </v-flex>
-
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center green white-text">
-        <InfoSquare
-          icon="error"
-          :value="incorrect"
-          title="Best Incorrect" />
-      </v-flex>
-    </v-layout>
-
-    <v-layout class="pt-5">
-      <v-flex xs4 offset-xs4>
-        <v-divider></v-divider>
-      </v-flex>
-    </v-layout>
-
-    <v-layout class="pt-5" column>
+    <v-layout class="mt-2" column>
       <v-layout>
         <v-flex xs4 class="text-xs-center">
-          <div class="inline-block chart-wrapper">
-            <h5 class="text-xs-center">Elapsed Time</h5>
-            <cpm-chart ref="timeChart" :data="timeData" :options="options"/>
+          <div class="white elevation-2">
+            <v-toolbar flat dense class="cyan" dark>
+              <v-toolbar-title>Elasped Time</v-toolbar-title>
+            </v-toolbar>
+            <div class="p4">
+              <cpm-chart ref="timeChart" :data="timeData" :options="options"/>
+            </div>
           </div>
         </v-flex>
 
         <v-flex xs4 class="text-xs-center">
-          <div class="inline-block chart-wrapper">
-            <h5 class="text-xs-center">CPM</h5>
-            <cpm-chart ref="cpmChart" :data="cpmData" :options="options"/>
+          <div class="white elevation-2">
+            <v-toolbar flat dense class="cyan" dark>
+              <v-toolbar-title>CPM</v-toolbar-title>
+            </v-toolbar>
+            <div class="p4">
+              <cpm-chart ref="cpmChart" :data="cpmData" :options="options"/>
+            </div>
           </div>
         </v-flex>
 
         <v-flex xs4 class="text-xs-center">
-          <div class="inline-block chart-wrapper">
-            <h5 class="text-xs-center">Accuracy</h5>
-            <cpm-chart ref="accuracyChart" :data="accuracyData" :options="options"/>
+          <div class="white elevation-2">
+            <v-toolbar flat dense class="cyan" dark>
+              <v-toolbar-title>Accuracy</v-toolbar-title>
+            </v-toolbar>
+            <div class="p4">
+              <cpm-chart ref="accuracyChart" :data="accuracyData" :options="options"/>
+            </div>
           </div>
         </v-flex>
       </v-layout>
     </v-layout>
 
-    <v-layout class="pt-5">
-      <v-flex xs4 offset-xs4>
-        <v-divider></v-divider>
-      </v-flex>
-    </v-layout>
-
-    <v-layout class="attempts">
-      <v-flex xs8 offset-xs2>
+    <v-layout class="mt-2">
+      <v-flex xs12>
         <div class="white elevation-2">
           <v-toolbar flat dense class="cyan" dark>
             <v-toolbar-title>Reports</v-toolbar-title>
@@ -92,6 +104,9 @@
 
           <v-data-table
             :headers="[{
+              text: 'Date',
+              value: 'date'
+            },{
               text: 'Time',
               value: 'time'
             }, {
@@ -106,10 +121,10 @@
             }]"
             :pagination.sync="pagination"
             :items="reports"
-            hide-actions
             dark
           >
             <template slot="items" scope="props">
+              <td class="text-xs-right">{{ props.item.date | moment("calendar") }}</td>
               <td class="text-xs-right">{{ props.item.time }}</td>
               <td class="text-xs-right">{{ props.item.cpm }}</td>
               <td class="text-xs-right">{{ props.item.accuracy }}</td>
@@ -131,7 +146,7 @@ import InfoSquare from './progress/InfoSquare.vue'
 export default {
   data () {
     return {
-      results: [],
+      reports: [],
       cpm: null,
       time: null,
       accuracy: null,
@@ -178,14 +193,13 @@ export default {
   },
   async mounted () {
     this.snippit = await SnippitService.show(this.snippitId);
-    this.results = await ReportsService.index({snippitId: this.snippitId});
-    this.reports = this.results;
+    this.reports = await ReportsService.index({snippitId: this.snippitId});
 
     let bestCpm = 0;
     let bestTime = Infinity;
     let bestAccuracy = 0;
     let bestIncorrect = Infinity;
-    this.results.forEach((result, index) => {
+    this.reports.forEach((result, index) => {
       this.timeData.labels.push(index + 1);
       this.timeData.datasets[0].data.push(result.time);
       this.accuracyData.labels.push(index + 1);
@@ -263,6 +277,10 @@ code {
   padding-right: 50px;
 }
 
+.p4 {
+  padding: 20px;
+}
+
 table {
   width: 100%;
 }
@@ -272,17 +290,12 @@ td {
   padding: 20px;
 }
 
-.attempts {
-  margin-top: 50px;
-}
-
-.attempts h5 {
-  margin-bottom: 40px;
-}
-
 .hljs {
   background-color: black;
   color: white;
+  top: -21px;
+  position: relative;
+  border-radius: 0px;
 }
 
 pre {

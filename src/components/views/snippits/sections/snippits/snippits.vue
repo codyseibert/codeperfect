@@ -1,21 +1,26 @@
 <template>
   <v-flex xs8>
-    <h4>Snippits</h4>
-    <v-layout row>
-      <v-flex>
-        <Snippit
-          :key="snippit.id"
-          :snippit="snippit"
-          v-for="snippit in oddSnippits" />
-      </v-flex>
+    <div class="white elevation-2">
+      <v-toolbar flat dense class="cyan" dark>
+        <v-toolbar-title>Snippits</v-toolbar-title>
+      </v-toolbar>
 
-      <v-flex>
-        <Snippit
-          :key="snippit.id"
-          :snippit="snippit"
-          v-for="snippit in evenSnippits" />
-      </v-flex>
-    </v-layout>
+      <v-layout row>
+        <v-flex>
+          <Snippit
+            :key="snippit.id"
+            :snippit="snippit"
+            v-for="snippit in oddSnippits" />
+        </v-flex>
+
+        <v-flex>
+          <Snippit
+            :key="snippit.id"
+            :snippit="snippit"
+            v-for="snippit in evenSnippits" />
+        </v-flex>
+      </v-layout>
+    </div>
   </v-flex>
 </template>
 

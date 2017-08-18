@@ -1,9 +1,11 @@
 <template>
   <v-flex xs4>
-    <div class="browser">
-      <h4>Languages</h4>
+    <div class="white elevation-2">
+      <v-toolbar flat dense class="cyan" dark>
+        <v-toolbar-title>Languages</v-toolbar-title>
+      </v-toolbar>
 
-      <div class="buttons full scroll">
+      <div>
         <v-btn flat primary
           v-for="language in languages"
           key="language._id"
@@ -58,6 +60,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 24px;
   height: 50px;
   width: 100%;
+  margin: 0;
 }
 
 .buttons {

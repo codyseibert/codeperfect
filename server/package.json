@@ -25,5 +25,6 @@
     "password-hash": "^1.2.2"
   },
   "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }

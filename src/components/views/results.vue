@@ -1,34 +1,42 @@
 <template>
   <v-layout column>
-    <v-layout row wrap>
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center red white-text">
-        <InfoSquare
-          icon="timer"
-          :value="results.time + 's'"
-          title="Elasped Time" />
-      </v-flex>
+      <v-flex xs12>
+        <div class="white elevation-2">
+          <v-toolbar flat dense class="cyan" dark>
+            <v-toolbar-title>Reports</v-toolbar-title>
+          </v-toolbar>
 
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center blue white-text">
-        <InfoSquare
-          icon="keyboard"
-          :value="results.cpm"
-          title="CPM" />
-      </v-flex>
+          <v-layout row wrap>
+          <v-flex md3 sm6 xs12 class="text-xs-center">
+            <InfoSquare
+              icon="timer"
+              :value="results.time + 's'"
+              title="Elasped Time" />
+          </v-flex>
 
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center yellow white-text">
-        <InfoSquare
-          icon="track_changes"
-          :value="results.accuracy"
-          title="Accuracy" />
-      </v-flex>
+          <v-flex md3 sm6 xs12 class="text-xs-center">
+            <InfoSquare
+              icon="keyboard"
+              :value="results.cpm"
+              title="CPM" />
+          </v-flex>
 
-      <v-flex elevation-2 md3 sm6 xs12 class="text-xs-center green white-text">
-        <InfoSquare
-          icon="error"
-          :value="results.incorrect"
-          title="Incorrect" />
-      </v-flex>
-    </v-layout>
+          <v-flex md3 sm6 xs12 class="text-xs-center">
+            <InfoSquare
+              icon="track_changes"
+              :value="results.accuracy"
+              title="Accuracy" />
+          </v-flex>
+
+          <v-flex md3 sm6 xs12 class="text-xs-center">
+            <InfoSquare
+              icon="error"
+              :value="results.incorrect"
+              title="Incorrect" />
+          </v-flex>
+        </v-layout>
+      </div>
+    </v-flex>
 
     <v-layout row wrap class="mt-4">
       <v-flex xs12 md6>

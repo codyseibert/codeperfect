@@ -7,8 +7,9 @@ const InvalidLoginError = require('../errors/InvalidLoginError');
 const jwt = require('jsonwebtoken');
 
 function jwtSignUser (user) {
+  const ONE_WEEK = 60 * 60 * 24 * 7;
   return jwt.sign(user, config.jwtSecret, {
-    expiresIn: 60 * 30 * 24
+    expiresIn: ONE_WEEK
   });
 }
 
@@ -27,6 +28,18 @@ module.exports = {
         .send({
           token: jwtSignUser(user.toObject()),
           user: user
+        });
+    } catch (err) {
+      ErrorHandler(err, res)
+    }
+  },
+
+  async refresh (req, res) {
+    try {
+      res
+        .status(200)
+        .send({
+          token: jwtSignUser(req.user),
         });
     } catch (err) {
       ErrorHandler(err, res)

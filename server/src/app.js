@@ -5,7 +5,7 @@ const log4js = require('log4js')
 const logger = log4js.getLogger('app')
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy,
-    ExtractJwt = require('passport-jwt').ExtractJwt;
+      ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
 
 const app = express()
@@ -24,7 +24,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async function(jwtPayload, done) {
   try {
     const user = await User.findById(jwtPayload._id)
     if (!user) return done(null, false);
-    done(null, user);
+    done(null, user.toObject());
   } catch (err) {
     done(err, false);
   }

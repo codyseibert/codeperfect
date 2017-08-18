@@ -10,6 +10,7 @@
         <v-icon>keyboard</v-icon>
       </div>
       <v-list class="pt-0" dense>
+        <!-- TODO: Refactor This -->
         <v-list-tile @click="gotoRoute('snippits')">
           <v-list-tile-action>
             <v-icon>code</v-icon>
@@ -70,8 +71,9 @@
 <script>
 import TopNav from './common/topnav.vue'
 import SideNav from './common/sidenav.vue'
+import AuthenticationService from '../services/authentication_service'
 
-export default {
+const app = {
   data () {
     return {
       isSideNavOpen: false,
@@ -83,8 +85,30 @@ export default {
     SideNav
   },
   mounted () {
+    const THIRTY_MIN = 1000 * 60 * 30;
+    setInterval(this.refreshToken, THIRTY_MIN);
+    this.refreshToken();
   },
   methods: {
+    async refreshToken () {
+      const clearToken = () =>
+        this.$store.dispatch('setToken', null);
+
+      if (!this.$store.state.token) {
+        clearToken();
+        return;
+      };
+
+      try {
+        const result = await AuthenticationService.refresh()
+        this.$store.dispatch('setToken', result.token);
+      } catch (err) {
+        clearToken()
+        this.$router.push({
+          name: 'login'
+        });
+      }
+    },
     gotoRoute (name) {
       this.$router.push({
         name: name
@@ -95,6 +119,8 @@ export default {
     }
   }
 }
+
+export default app
 </script>
 
 <style>

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import LoginService from '../../services/login_service'
+import AuthenticationService from '../../services/authentication_service'
 
 export default {
   data () {
@@ -39,7 +39,7 @@ export default {
   methods: {
     async login () {
       try {
-        const info = await LoginService.post({
+        const info = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })

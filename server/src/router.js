@@ -44,4 +44,7 @@ app.post('/languages',
   LanguagesCtrl.post);
 
 app.post('/login', AuthenticationCtrl.login);
+app.post('/refresh',
+  requireAuth,
+  AuthenticationCtrl.refresh);
 app.post('/register', AuthenticationCtrl.register);

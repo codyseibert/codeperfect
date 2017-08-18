@@ -12,6 +12,8 @@ import store from './store/store'
 import VueHighlightJS from 'vue-highlightjs'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
+import VueMoment from 'vue-moment'
+
 // import VueCharts from 'vue-chartjs'
 
 // Vue.use(VueMaterial)
@@ -19,6 +21,7 @@ Vue.use(VueRouter)
 Vue.use(VueCodeMirror)
 Vue.use(VueHighlightJS)
 Vue.use(Vuetify)
+Vue.use(VueMoment);
 // Vue.use(VueCharts)
 
 import Snippits from './components/views/snippits/main.vue'

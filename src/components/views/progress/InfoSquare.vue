@@ -39,20 +39,20 @@ export default {
 .numeric {
   font-size:calc(12px + 2vw);
   font-weight: bold;
-  color: white;
+  color: #64b5f6;
 }
 
 .subtitle {
   font-size:calc(6px + 1.2vw);
   position: relative;
   top: -10px;
-  color: white;
+  color: #333;
   left: 0px;
 }
 
 .info-icon {
   font-size:calc(12px + 5vw);
-  color: white;
+  color: #333;
   text-shadow: 1px 1px 1px #666;
 }
 </style>

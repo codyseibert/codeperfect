@@ -71,6 +71,16 @@ code {
 
 .md-card {
   margin-bottom: 40px;
+  background-color: orange;
+}
+
+.snippit .card {
+  background-color: #404040;
+  color: white;
+}
+
+h5 {
+  color: white;
 }
 
 .snippit {
