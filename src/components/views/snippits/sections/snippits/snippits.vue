@@ -5,9 +5,10 @@
         <v-toolbar-title>Snippits</v-toolbar-title>
       </v-toolbar>
 
-      <v-layout row>
-        <v-flex>
+      <v-layout row class="pl-2 pr-2 pb-2">
+        <v-flex class="pr-2">
           <Snippit
+            class="pt-2"
             :key="snippit.id"
             :snippit="snippit"
             v-for="snippit in oddSnippits" />
@@ -15,6 +16,7 @@
 
         <v-flex>
           <Snippit
+            class="pt-2"
             :key="snippit.id"
             :snippit="snippit"
             v-for="snippit in evenSnippits" />
@@ -69,17 +71,5 @@ export default {
 </script>
 
 
-
 <style scoped>
-h1, h2 {
-  margin-bottom: 20px;
-}
-
-.snippits {
-  padding-bottom: 100px;
-}
-
-.snippits-content {
-  padding-right: 40px;
-}
 </style>

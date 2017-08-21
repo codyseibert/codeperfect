@@ -49,11 +49,9 @@ export default {
 </script>
 
 
-
-<style>
-pre {
-  height: 240px;
-  margin: 0px;
+<style scoped>
+.icon {
+  margin-right: 10px;
 }
 
 code {
@@ -64,33 +62,27 @@ code {
   position: relative;
 }
 
+pre {
+  height: 240px;
+  margin: 0px;
+}
+
 .hljs {
   background-color: black;
   color: white;
 }
 
-.md-card {
-  margin-bottom: 40px;
-  background-color: orange;
-}
-
 .snippit .card {
   background-color: #404040;
-  color: white;
 }
 
 h5 {
   color: white;
+  margin-bottom: 0px;
 }
 
-.snippit {
-  padding: 10px;
+.card__actions {
+  padding-top: 0px;
 }
 
-</style>
-
-<style scoped>
-.icon {
-  margin-right: 10px;
-}
 </style>
